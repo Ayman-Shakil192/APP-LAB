@@ -1,0 +1,207 @@
+1) # Suppose we have created a file with 500 lines of data and the
+   # file object reference is “f”. Illustrate fseek() function for the following:
+
+i) Beginning of the file
+
+f = open("data.txt","rb")
+f.seek(0,0)
+f.read()
+
+ii) Move to 100th location from beginning of file
+
+f.seek(100,0)
+f.read()
+
+iii) Move to 10th location from the end of file
+
+f.seek(-10,2)
+f.read()
+
+iv) Move file pointer to end of file 
+
+f.seek(0,2)
+f.read()
+
+v) Returns current position of file pointer
+
+pos = f.tell()
+print(pos)
+
+2) # Consider a file with 100 lines of data and the file object reference
+   # is “f”. Illustrate what each of these following operations does 
+
+i) f.seek(0,)
+ii) f.seek(50,1)
+iii) f.seek(-5,2)
+iv) f.seek(0,2)
+v) f.tell()
+
+3) # Implement a program to copy one python script into another by
+   # removing all the comment lines from the source file to destination file 
+
+import os
+def copy(source, destination):
+    try:
+        with open(source) as f:
+            contents = f.read()
+    except FileNotFoundError:
+        print("File not found!")
+        return 0
+    else:
+        lines = contents.split("\n")
+        for line in lines:
+            if line.startswith("#"):
+                continue
+            else:
+                with open(destination, "a") as f:
+                    f.write(line + "\n")
+
+copy("source.py", "destination.py")
+
+4) # Implement a program that generates a Quiz and uses two files-
+   # Questions.txt and Answers.txt. The program opens Questions.txt and
+   # reads a question and displays the question with options on the screen.
+   # The program then opens the Answers.txt file and displays the correct answers.
+
+quesfile = open("Questions.txt", "r")
+ansfile = open("Answers.txt", "r")
+score = 0
+
+questions = quesfile.readlines()
+answers = ansfile.readlines()
+
+for i in range(len(answers)):
+    print(questions[i])
+    useranswer = input("Enter the choice ")
+    if(useranswer == answers[i][0]):
+        print("Correct Answer\n")
+        score += 1
+    else:
+        print("Wrong Answer\n")
+
+print("Your score is", score)
+
+# Questions.txt
+
+What is the capital of India ? a: New Delhi b: New York c: New Jersey
+Which of the following is a fruit ? a: Apple b: Chicken c: Carrot
+
+# Answers.txt
+
+a
+a
+
+
+4) # Demonstrate Object Serialization in python by creating a custom
+   # class called Employee. Employee will store Employee name, age,
+   # salary, married and having kid. Save it and load it up into a separate
+   # object and display the new object.
+
+import pickle
+class Employee:
+    def __init__(self, name, age, salary, married, kid):
+        self.name = name
+        self.age = age
+        self.salary = salary
+        self.married = married
+        self.kid = kid
+
+    def __str__(self):
+        return "Name: " + self.name + "\nAge: " + str(self.age) + "\nSalary: " + str(self.salary) + "\nMarried: " + str(self.married) + "\nKid: " + str(self.kid)
+
+    def save(self, filename):
+        try:
+            with open(filename, "wb") as f:
+                pickle.dump(self, f)
+        except FileNotFoundError:
+            print("File not found!")
+            return 0
+
+    def load(self, filename):
+        try:
+            with open(filename, "rb") as f:
+                return pickle.load(f)
+        except FileNotFoundError:
+            print("File not found!")
+            return 0
+        
+def main():
+    emp = Employee("Raj", 30, 50000, True, True)
+    print(emp)
+    with open("emp.txt", "wb") as f:
+        Employee.save(emp, f)
+    with open("emp.txt", "rb") as f:
+        Employee.load(emp, f)
+    print(emp)
+
+main()
+
+5) #Demonstrate Serialization in python by creating a custom class
+   # called Player. Player will store an id, name. Save it and load it up into
+   # a separate object and display the new object.
+
+import pickle
+class Player:
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
+
+    def __str__(self):
+        return "ID: " + str(self.id) + "\nName: " + self.name
+
+    def save(self, filename):
+        try:
+            with open(filename, "wb") as f:
+                pickle.dump(self, f)
+        except FileNotFoundError:
+            print("File not found!")
+            return 0
+
+    def load(self, filename):
+        try:
+            with open(filename, "rb") as f:
+                return pickle.load(f)
+        except FileNotFoundError:
+            print("File not found!")
+            return 0
+
+def main():
+    player = Player(1, "John")
+    print(player)
+    with open("player.dat", "wb") as f:
+        Player.save(player, f)
+    with open("player.dat", "rb") as f:
+        Player.load(player, f)
+    print(player)
+
+main()
+
+7) # write a program to count the number of upper-case and lower-case
+   # alphabets present in a text file “data.txt”.
+
+def count_uppercase():
+    file = open("data.txt","r")
+    data = file.read()
+    count = 0
+    for letter in data:
+        if letter.isupper():
+            count+=1
+    print(count)
+    file.close()
+
+def count_lowercase():
+    file = open("file.txt","r")
+    data = file.read()
+    count = 0
+    for letter in data:
+        if letter.islower():
+            count+=1
+    print(count)
+    file.close()
+
+count_uppercase()
+count_lowercase()
+
+
+
+
